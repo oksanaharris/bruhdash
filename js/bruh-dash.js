@@ -315,28 +315,19 @@ global.bruhdash = {
   // in the collection through an iteratee
   // Note: this should work for arrays and objects
 
-  reduce: function(col, func) {
-    var result;
-    else{
-      startVal = ini;
-    }
+  reduce: function(col, func, initial) {
+    var result = 0;
 
     if (Array.isArray(col)){
-      result = func(startVal);
       for (var i = 0; i < col.length; i++){
-        func(col[i]);
+        result = func(result,col[i]);
       }
-      return newArr;
-    }
-    if(typeof col === 'object'){
+    } else if(typeof col === 'object'){
       for (var key in col){
-        if (func(col[key]) === true){
-          newEl = {key: col[key]};
-          newArr = newEl;
-        }
+        result = func(result, col[key]);
       }
-      return newArr;
     }
+    return result;
   }
-
+  //the way the test is applied to this makes zero sense to me - why would we want to sum up the values for the different keys? Is that really how we would iterate through the object? Or is this method meant for iterating through objects (rather than their keys) and summing up values of the same key in different objects?
 };
