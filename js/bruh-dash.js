@@ -227,20 +227,56 @@ global.bruhdash = {
 
   // creates an array of elements into groups of length of specified size
 
-  chunk: function(){
-
+  chunk: function(arr, size){
+    var newArr = [];
+    if (size === 0){
+      return newArr;
+    }
+    else {
+      while (arr.length > 0){
+          newArr.push(arr.splice(0,size));
+        }
+      }
+    return newArr;
   },
 
   // iterates over elements of a collection and invokes iteratee for each element
   // Note: this should work for arrays and objects
-  forEach: function() {
 
+  forEach: function(col, func) {
+    if (Array.isArray(col)){
+      for (var i = 0; i < col.length; i++){
+        func(col[i]);
+      }
+      return col;
+    }
+    if(typeof col === 'object'){
+      for (var key in col){
+        func(col[key],key);
+      }
+    }
   },
 
   // creates an array of values by running each element in collection thru the iteratee
   // Note: this should work for arrays and objects
-  map: function() {
 
+  map: function(col, func) {
+    var newEl;
+    var newArr = [];
+    if (Array.isArray(col)){
+      for (var i = 0; i < col.length; i++){
+        newEl = func(col[i]);
+        newArr.push(newEl);
+      }
+      return newArr;
+    }
+    if(typeof col === 'object'){
+      for (var key in col){
+        newEl = func(col[key],key);
+        newArr.push(newEl);
+      }
+      return newArr;
+    }
   },
 
   /*************************
@@ -249,14 +285,58 @@ global.bruhdash = {
 
   // iterates over elements of a collection and returns all elements that the predicate returns truthy for
   // Note: this should work for arrays and objects
-  filter: function() {
+  //returns an array of filtered elements - all the elements that passed the verification condition/function
 
+  filter: function(col, func) {
+    var newEl;
+    var newArr = [];
+    if (Array.isArray(col)){
+      for (var i = 0; i < col.length; i++){
+        if (func(col[i])){
+          newEl = col[i];
+          newArr.push(newEl);
+        }
+      }
+    } else if(typeof col === 'object'){
+        for (var key in col){
+          if (func(col[key]) === true){
+            newEl = col[key];
+            newArr.push(newEl);
+          }
+        }
+    }
+    return newArr;
+    //is this an array of objects or properties of a single object?
+    //what is it returning? - an array? 
+    //the intention of this function when it comes to objects isn't clear to me
   },
 
   // Reduces the collection to a value which is the accumulated result of running each element
   // in the collection through an iteratee
   // Note: this should work for arrays and objects
-  reduce: function() {
-    
+
+  reduce: function(col, func) {
+    var result;
+    else{
+      startVal = ini;
+    }
+
+    if (Array.isArray(col)){
+      result = func(startVal);
+      for (var i = 0; i < col.length; i++){
+        func(col[i]);
+      }
+      return newArr;
+    }
+    if(typeof col === 'object'){
+      for (var key in col){
+        if (func(col[key]) === true){
+          newEl = {key: col[key]};
+          newArr = newEl;
+        }
+      }
+      return newArr;
+    }
   }
+
 };
